@@ -9,21 +9,6 @@
 #include <errno.h>
 #include <sys/time.h>
 
-// ICMP报文校验和计算
-unsigned short calculate_checksum(unsigned short *addr, int len) {
-    unsigned int sum = 0;
-    while (len > 1) {
-        sum += *addr++;
-        len -= 2;
-    }
-    if (len == 1) {
-        sum += *(unsigned char *)addr;
-    }
-    sum = (sum >> 16) + (sum & 0xFFFF);
-    sum += (sum >> 16);
-    return ~sum;
-}
-
 // 构造ICMP Echo请求报文
 void build_icmp6_echo(struct icmp6_hdr *icmp6_hdr) {
     icmp6_hdr->icmp6_type = ICMP6_ECHO_REQUEST;  // ICMPv6 Echo请求
